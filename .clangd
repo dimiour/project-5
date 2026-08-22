@@ -1,0 +1,21 @@
+CompileFlags:
+  Add:
+    [
+      "-I/Users/timmygarber/Documents/PlatformIO/Projects/Project-5/include",
+      "-I/Users/timmygarber/Documents/PlatformIO/Projects/Project-5/src",
+      "-I/Users/timmygarber/Documents/PlatformIO/Projects/Project-5/.pio/libdeps/leonardo/Arduboy2/src",
+      "-I/Users/timmygarber/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
+      "-I/Users/timmygarber/.platformio/packages/framework-arduino-avr/cores/arduino",
+      "-I/Users/timmygarber/.platformio/packages/framework-arduino-avr/variants/leonardo",
+      "-I/Users/timmygarber/.platformio/packages/framework-arduino-avr/libraries/HID/src",
+      "-I/Users/timmygarber/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
+      "-I/Users/timmygarber/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
+      "-I/Users/timmygarber/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
+      "-I/Users/timmygarber/.platformio/packages/toolchain-atmelavr/avr/include",
+      "-DARDUINO_AVR_LEONARDO",
+      "-DF_CPU=16000000L",
+      "-DARDUINO_ARCH_AVR",
+      "-DARDUINO=10808",
+      "-D__AVR_ATmega32U4__",
+      "-Wno-pointer-to-int-cast",
+    ]
