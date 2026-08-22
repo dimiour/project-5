@@ -9,7 +9,18 @@ I don't think that it would be distasteful to remove the aiming aspect of shooti
 
 ### Step one: make a satisfying movement system for enemies and the player
 
-- [ ] take input
-- [ ] include velocity
-- [ ] fine tune the drag and speed
-- [ ] automate enemies to directional movement
+- [x] take input
+- [x] include velocity
+- [x] fine tune the drag and speed
+- [x] automate enemies to directional movement
+
+### Step two: organize the functionality into a world-entity sytem
+
+- [ ] combine struct for entities that does shared functionality between player and enemy
+- [ ] create world array with handler
+- [ ] define pointer to player, with seperate functionality in the player codeblock
+- [ ] seperate enemy functionality 
+
+### Step three: shooting mechanic & health system
+
+### Step four: game loop (high score system?)
