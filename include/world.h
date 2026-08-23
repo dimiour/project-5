@@ -58,7 +58,10 @@ inline bool checkCollision(Entity& a, Entity& b) {
             a.velY += cy * abs(cy) - cs;
 
             if (b.isPlayer && shotProgress > 0) {
-                if (a.health > 0) a.health--;
+                if (a.health > 0 && !a.hitMarked) {
+                    a.health--;
+                    a.hitMarked = true;
+                }
             } else {
                 b.velX -= cx * abs(cx) - cs;
                 b.velY -= cy * abs(cy) - cs;
@@ -67,6 +70,8 @@ inline bool checkCollision(Entity& a, Entity& b) {
             }
 
             return true;
+        } else if (a.hitMarked) {
+            a.hitMarked = false;
         }
     }
 
@@ -108,6 +113,8 @@ inline void resetPlayer() {
     for (int i = 0; i < NUM_ENEMIES; i++) {
         enemies[i].active = false;
         enemies[i].reviveCountdown = random(REVIVE_DURATION, REVIVE_DURATION * 2);
+        enemies[i].health = 1;
+        enemies[i].size = random(3, 5);
     }
 }
 

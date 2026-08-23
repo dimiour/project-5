@@ -22,7 +22,7 @@ void setup() {
 
   player.x = 64;
   player.y = 32;
-  player.size = 4;
+  player.size = 3;
   player.active = true;
   player.isPlayer = true;
   player.reviveCountdown = 0;
