@@ -8,6 +8,14 @@ Arduboy2 arduboy;
 Entity player;
 Entity enemies[NUM_ENEMIES];
 
+
+
+int16_t playerEnergy = 100;
+int16_t shotProgress = 0;
+
+
+
+
 void setup() {
   // Initialize Arduboy
   arduboy.begin();
@@ -40,6 +48,7 @@ void resetPlayer() {
         enemies[i].active = false;
     }
 }
+
 
 uint8_t deathAnimationTimer = 0;
 bool liveGame = false;
@@ -77,6 +86,8 @@ void loop() {
         updatePlayer();
         updateEnemies();
         drawEntities();
+
+
     } else {
         // you can do something with the deathAnimationTimer
 

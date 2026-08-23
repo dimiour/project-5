@@ -1,10 +1,18 @@
 #pragma once
 #include "entity.h"
+#include "utils.h"
 
 extern Arduboy2 arduboy;
 extern Entity player;
 extern Entity enemies[NUM_ENEMIES];
 extern void endGame();
+
+
+extern int16_t playerEnergy;
+extern int16_t shotProgress;
+#define SHOT_RANGE 10
+#define SHOT_DURATION 20
+#define SHOT_ENERGY 50
 
 #define PLAYER_ACCELERATION 7
 
@@ -16,11 +24,25 @@ inline void updatePlayer() {
     if (arduboy.pressed(LEFT_BUTTON)) { dx += -PLAYER_ACCELERATION; }
     if (arduboy.pressed(RIGHT_BUTTON)) { dx += PLAYER_ACCELERATION; }
 
-    player.update(dx, dy);
+    if (arduboy.pressed(A_BUTTON) && shotProgress == 0 && playerEnergy >= SHOT_ENERGY) {
+        shotProgress = 1; playerEnergy -= SHOT_ENERGY; 
+    }
+    
+    if (shotProgress > 0) shotProgress++;
+    if (shotProgress >= SHOT_DURATION) shotProgress = 0;
+    
+    arduboy.drawCircle(player.x, player.y, easeOutQuad(shotProgress, SHOT_DURATION, 0, SHOT_RANGE));
+
+
 
     arduboy.print(player.health);
-    arduboy.print(" Health");
+    arduboy.print(" Health, ");
 
+    if (playerEnergy < 100 && arduboy.everyXFrames(3)) playerEnergy++;
+    arduboy.print(playerEnergy);
+    arduboy.print(" Energy");
+
+    player.update(dx, dy);
     if (player.health == 0) endGame();
 }
 
@@ -28,14 +50,19 @@ inline bool checkCollision(Entity& a, Entity& b) {
     if (a.active && b.active) {
         int16_t cx = a.x - b.x;
         int16_t cy = a.y - b.y;
-        int16_t cs = a.size + b.size;
+        
+        int16_t cs = a.size + b.size + (b.isPlayer ? shotProgress : 0);
 
         if (cx * cx + cy * cy < cs * cs) {
             a.velX += cx * abs(cx) - cs;
             a.velY += cy * abs(cy) - cs;
+            a.health--;
 
-            b.velX -= cx * abs(cx) - cs;
-            b.velY -= cy * abs(cy) - cs;
+            if (shotProgress == 0 || !b.isPlayer) {
+                b.velX -= cx * abs(cx) - cs;
+                b.velY -= cy * abs(cy) - cs;
+                b.health--;
+            }
 
             return true;
         }
@@ -60,10 +87,7 @@ inline void updateEnemies() {
             checkCollision(enemies[i], enemies[j]);
         }
 
-        if (checkCollision(enemies[i], player)) {
-            enemies[i].health--;
-            player.health--;
-        }
+        checkCollision(enemies[i], player);
 
         enemies[i].update(dx, dy);
 
