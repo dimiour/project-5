@@ -63,7 +63,14 @@ inline bool checkCollision(Entity& a, Entity& b) {
                 b.velX -= cx * abs(cx) - cs;
                 b.velY -= cy * abs(cy) - cs;
 
-                if (b.isPlayer && shotProgress == 0 && b.health > 0) b.health--;
+                // in the case that the player is hit without a shot out,
+                // the health of the player and enemy are subtracted until one dies
+                if (b.isPlayer && shotProgress == 0 && b.health > 0) {
+                    if (a.health > 0 && b.health > 0) {
+                        a.health--;
+                        b.health--;
+                    }
+                }
             }
 
             return true;
