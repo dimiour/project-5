@@ -13,7 +13,7 @@ struct Entity {
     int16_t velX = 0, velY = 0;
     uint8_t size = 4, health = 0;
     bool active = false, isPlayer = false, hitMarked = false;
-    uint8_t reviveCountdown = 0;
+    uint8_t reviveCountdown = 100;
     
     void draw() {
         if (!active) return;
@@ -24,9 +24,14 @@ struct Entity {
     void update(int16_t dx, int16_t dy) {
         // This takes user input (acceleration) and stores it in a dx/dy pair
             
-        if (reviveCountdown > 0) {
+        if (reviveCountdown > 0 && !active) {
             reviveCountdown--;
-            if (reviveCountdown == 0) active = true;
+            if (reviveCountdown == 0) {
+                active = true;
+    
+                x = random(0, 128);
+                y = random(2) * 64;
+            }
         }
         
         // This reduces the diagonal movement to 5/7 of the original speed

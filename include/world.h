@@ -58,12 +58,12 @@ inline bool checkCollision(Entity& a, Entity& b) {
             a.velY += cy * abs(cy) - cs;
 
             if (b.isPlayer && shotProgress > 0) {
-                a.health--;
+                if (a.health > 0) a.health--;
             } else {
                 b.velX -= cx * abs(cx) - cs;
                 b.velY -= cy * abs(cy) - cs;
 
-                if (b.isPlayer && shotProgress == 0) b.health--;
+                if (b.isPlayer && shotProgress == 0 && b.health > 0) b.health--;
             }
 
             return true;
@@ -99,6 +99,15 @@ inline void updateEnemies() {
             enemies[i].reviveCountdown = REVIVE_DURATION;
             enemies[i].health = 1;
         }
+    }
+}
+
+inline void resetPlayer() {
+    player.health = 4;
+
+    for (int i = 0; i < NUM_ENEMIES; i++) {
+        enemies[i].active = false;
+        enemies[i].reviveCountdown = random(REVIVE_DURATION, REVIVE_DURATION * 2);
     }
 }
 

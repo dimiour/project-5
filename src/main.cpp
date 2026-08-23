@@ -25,6 +25,7 @@ void setup() {
   player.size = 4;
   player.active = true;
   player.isPlayer = true;
+  player.reviveCountdown = 0;
 
   for (int i = 0; i < NUM_ENEMIES; i++) {
     enemies[i].x = 64;
@@ -41,13 +42,7 @@ void setup() {
   arduboy.setFrameRate(60);
 }
 
-void resetPlayer() {
-    player.health = 4;
 
-    for (int i = 0; i < NUM_ENEMIES; i++) {
-        enemies[i].active = false;
-    }
-}
 
 
 uint8_t deathAnimationTimer = 0;
