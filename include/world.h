@@ -74,6 +74,7 @@ inline bool checkCollision(Entity& a, Entity& b) {
 }
 
 #define ENEMY_ACCELERATION 6
+#define REVIVE_DURATION 100
 
 inline void updateEnemies() {
     for (int i = 0; i < NUM_ENEMIES; i++) {
@@ -95,6 +96,7 @@ inline void updateEnemies() {
 
         if (enemies[i].health == 0) {
             enemies[i].active = false;
+            enemies[i].reviveCountdown = REVIVE_DURATION;
             enemies[i].health = 1;
         }
     }

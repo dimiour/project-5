@@ -12,10 +12,9 @@ struct Entity {
     int16_t x = 0, y = 0;
     int16_t velX = 0, velY = 0;
     uint8_t size = 4, health = 0;
-    bool active = false, isPlayer = false;
-
-    Entity* enemies = nullptr;
-
+    bool active = false, isPlayer = false, hitMarked = false;
+    uint8_t reviveCountdown = 0;
+    
     void draw() {
         if (!active) return;
         if (isPlayer) arduboy.fillCircle(x, y, size); 
@@ -25,11 +24,9 @@ struct Entity {
     void update(int16_t dx, int16_t dy) {
         // This takes user input (acceleration) and stores it in a dx/dy pair
             
-        if (!isPlayer && !active && arduboy.everyXFrames(244)) {
-            x = random(128);
-            y = random(64);
-            size = random(3, 7);
-            active = true;
+        if (reviveCountdown > 0) {
+            reviveCountdown--;
+            if (reviveCountdown == 0) active = true;
         }
         
         // This reduces the diagonal movement to 5/7 of the original speed
