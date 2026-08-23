@@ -76,7 +76,12 @@ void loop() {
     } else {
         // you can do something with the deathAnimationTimer
         arduboy.setCursor(54, 22);
-        arduboy.print(deathAnimationTimer);
+
+        if (deathAnimationTimer < RESTART_COOLDOWN) {
+            arduboy.print(deathAnimationTimer);
+        } else {
+            arduboy.print("Press to start!");
+        }
 
         drawEntities();
 
