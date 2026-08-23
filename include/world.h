@@ -56,12 +56,14 @@ inline bool checkCollision(Entity& a, Entity& b) {
         if (cx * cx + cy * cy < cs * cs) {
             a.velX += cx * abs(cx) - cs;
             a.velY += cy * abs(cy) - cs;
-            a.health--;
 
-            if (shotProgress == 0 || !b.isPlayer) {
+            if (b.isPlayer && shotProgress > 0) {
+                a.health--;
+            } else {
                 b.velX -= cx * abs(cx) - cs;
                 b.velY -= cy * abs(cy) - cs;
-                b.health--;
+
+                if (b.isPlayer && shotProgress == 0) b.health--;
             }
 
             return true;
