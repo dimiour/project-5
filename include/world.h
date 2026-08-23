@@ -10,7 +10,7 @@ extern void endGame();
 
 extern int16_t playerEnergy;
 extern int16_t shotProgress;
-#define SHOT_RANGE 10
+#define SHOT_RANGE 15
 #define SHOT_DURATION 20
 #define SHOT_ENERGY 50
 
@@ -58,10 +58,7 @@ inline bool checkCollision(Entity& a, Entity& b) {
             a.velY += cy * abs(cy) - cs;
 
             if (b.isPlayer && shotProgress > 0) {
-                if (a.health > 0 && !a.hitMarked) {
-                    a.health--;
-                    a.hitMarked = true;
-                }
+                if (!a.hitMarked) a.hitMarked = true;
             } else {
                 b.velX -= cx * abs(cx) - cs;
                 b.velY -= cy * abs(cy) - cs;
@@ -71,6 +68,7 @@ inline bool checkCollision(Entity& a, Entity& b) {
 
             return true;
         } else if (a.hitMarked) {
+            if (a.health > 0) a.health--;
             a.hitMarked = false;
         }
     }
@@ -113,8 +111,8 @@ inline void resetPlayer() {
     for (int i = 0; i < NUM_ENEMIES; i++) {
         enemies[i].active = false;
         enemies[i].reviveCountdown = random(REVIVE_DURATION, REVIVE_DURATION * 2);
-        enemies[i].health = 1;
-        enemies[i].size = random(3, 5);
+        enemies[i].health = random(1, 3);
+        enemies[i].size = random(5, 7);
     }
 }
 
