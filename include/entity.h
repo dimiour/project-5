@@ -11,7 +11,7 @@ extern Arduboy2 arduboy;
 struct Entity {
     int16_t x = 0, y = 0;
     int16_t velX = 0, velY = 0;
-    uint8_t size = 4;
+    uint8_t size = 4, health = 0;
     bool active = false, isPlayer = false;
 
     Entity* enemies = nullptr;
@@ -25,10 +25,10 @@ struct Entity {
     void update(int8_t dx, int8_t dy) {
         // This takes user input (acceleration) and stores it in a dx/dy pair
             
-        if (!active && arduboy.everyXFrames(random(isPlayer ? 500 : 200))) {
+        if (!isPlayer && !active && arduboy.everyXFrames(244)) {
             x = random(128);
             y = random(64);
-            size = isPlayer ? 4 : random(3, 7);
+            size = random(3, 7);
             active = true;
         }
         
@@ -59,7 +59,6 @@ struct Entity {
         if (x > 128) { velX = -velX; x = 128; }
         if (y < 0) { velY = -velY; y = 0; }
         if (y > 64) { velY = -velY; y = 64; }
-        
     }
 };
 
