@@ -9,7 +9,7 @@ extern void endGame();
 #define PLAYER_ACCELERATION 7
 
 inline void updatePlayer() {
-    int8_t dx = 0, dy = 0;
+    int16_t dx = 0, dy = 0;
 
     if (arduboy.pressed(UP_BUTTON)) { dy += -PLAYER_ACCELERATION; }
     if (arduboy.pressed(DOWN_BUTTON)) { dy += PLAYER_ACCELERATION; }
@@ -43,17 +43,17 @@ inline bool checkCollision(Entity& a, Entity& b) {
     return false;
 }
 
-#define ENEMY_ACCELERATION 5
+#define ENEMY_ACCELERATION 6
 
 inline void updateEnemies() {
     for (int i = 0; i < NUM_ENEMIES; i++) {
 
 
-        int8_t dx = 0, dy = 0;
-        if (player.y - enemies[i].y < -10) { dy += -ENEMY_ACCELERATION; }
-        if (player.y - enemies[i].y > 10) { dy += ENEMY_ACCELERATION; }
-        if (player.x - enemies[i].x < -10) { dx += -ENEMY_ACCELERATION; }
-        if (player.x - enemies[i].x > 10) { dx += ENEMY_ACCELERATION; }
+        int16_t dx = 0, dy = 0;
+        if (player.y - enemies[i].y < -10) dy += -ENEMY_ACCELERATION;
+        if (player.y - enemies[i].y > 10) dy += ENEMY_ACCELERATION;
+        if (player.x - enemies[i].x < -10) dx += -ENEMY_ACCELERATION;
+        if (player.x - enemies[i].x > 10) dx += ENEMY_ACCELERATION;
 
         for (int j = i + 1; j < NUM_ENEMIES; j++) {
             checkCollision(enemies[i], enemies[j]);

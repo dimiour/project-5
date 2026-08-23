@@ -75,7 +75,6 @@ void loop() {
         drawEntities();
     } else {
         // you can do something with the deathAnimationTimer
-        arduboy.setCursor(54, 22);
 
         if (deathAnimationTimer < RESTART_COOLDOWN) {
             arduboy.print(deathAnimationTimer);
@@ -84,7 +83,6 @@ void loop() {
         }
 
         drawEntities();
-
     }
     
     // Display the screen

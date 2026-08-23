@@ -22,7 +22,7 @@ struct Entity {
         else arduboy.drawCircle(x, y, size);
     }
     
-    void update(int8_t dx, int8_t dy) {
+    void update(int16_t dx, int16_t dy) {
         // This takes user input (acceleration) and stores it in a dx/dy pair
             
         if (!isPlayer && !active && arduboy.everyXFrames(244)) {
@@ -34,27 +34,22 @@ struct Entity {
         
         // This reduces the diagonal movement to 5/7 of the original speed
         if (dx != 0 && dy != 0) {
-            dx = dx / 7 * 5;
-            dy = dy / 7 * 5;
+            dx = dx * 5 / 7;
+            dy = dy * 5 / 7;
         }
 
         // Make it so if the velocity is less than 2 it jolts
         if (abs(velX) < 2) { dx *= 3; }
         if (abs(velY) < 2) { dy *= 3; }
 
-        // This applies the acceleration to their velocity
-        velX += dx;
-        velY += dy;
-
-        // This applies friction to the velocity
-        velX *= isPlayer ? 0.90 : 0.92;
-        velY *= isPlayer ? 0.90 : 0.92;
+        // This applies the acceleration and friction to their velocity
+        velX += dx; velY += dy; velX *= .90; velY *= .90;
         
-        // This applies the velocity to their position Y velocity-units / second
+        // This applies the velocity to their position
         x += absolute_clamp(velX, 1) * arduboy.everyXFrames(60 / abs(absolute_clamp(velX, 60)));
         y += absolute_clamp(velY, 1) * arduboy.everyXFrames(60 / abs(absolute_clamp(velY, 60)));
         
-        // check if the entity is outside the (0,0,128,64) rect of the screen and flip the respective velocity and divide it by 0.90
+        // check if the entity is outside the (0,0,128,64) rect of the screen and flip the respective velocity
         if (x < 0) { velX = -velX; x = 0; }
         if (x > 128) { velX = -velX; x = 128; }
         if (y < 0) { velY = -velY; y = 0; }
