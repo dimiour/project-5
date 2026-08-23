@@ -35,11 +35,15 @@ void setup() {
 
 void resetPlayer() {
     player.health = 4;
+
+    for (int i = 0; i < NUM_ENEMIES; i++) {
+        enemies[i].active = false;
+    }
 }
 
 uint8_t deathAnimationTimer = 0;
 bool liveGame = false;
-#define RESTART_COOLDOWN 100
+#define RESTART_COOLDOWN 160
 bool checkLiveGame() {
     if (liveGame) return true;
     
@@ -77,7 +81,8 @@ void loop() {
         // you can do something with the deathAnimationTimer
 
         if (deathAnimationTimer < RESTART_COOLDOWN) {
-            arduboy.print(deathAnimationTimer);
+            arduboy.print("Revive in ");
+            arduboy.print((RESTART_COOLDOWN - deathAnimationTimer) / 60 + 1);
         } else {
             arduboy.print("Press to start!");
         }

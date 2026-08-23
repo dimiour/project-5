@@ -19,6 +19,7 @@ inline void updatePlayer() {
     player.update(dx, dy);
 
     arduboy.print(player.health);
+    arduboy.print(" Health");
 
     if (player.health == 0) endGame();
 }
